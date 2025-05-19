@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class Board {
@@ -38,17 +37,34 @@ public class Board {
         int exR = -1, exC = -1;
 
         for (int r = 0; r < R; r++) {
-            String row = lines.get(idx + r);
-            if (row.length() != C)
-                throw new IllegalArgumentException("Row " + r + " length " + row.length() + " ≠ " + C);
+            String raw = lines.get(idx + r).trim();           // baris mentah
+            // ────────────────── deteksi K di dinding ──────────────────
+            if (raw.length() == C + 1) {                      // ada 1 sel ekstra
+                if (raw.charAt(0) == 'K') {                   // K di kiri papan
+                    exR = r; exC = -1;                // use local vars
+                    raw = raw.substring(1);                   // buang 'K'
+                } else if (raw.charAt(raw.length() - 1) == 'K') {  // K di kanan
+                    exR = r; exC = C;                 // use local vars
+                    raw = raw.substring(0, raw.length() - 1); // buang 'K'
+                } else {
+                    throw new IllegalArgumentException("Extra char bukan 'K' di row " + r);
+                }
+            } else if (raw.length() != C) {
+                throw new IllegalArgumentException(
+                    "Row " + r + " length " + raw.length() + " ≠ " + C);
+            }
+            // -----------------------------------------------------------
+
+            // sekarang 'raw' pasti panjangnya persis C
             for (int c = 0; c < C; c++) {
-                char ch = row.charAt(c);
-                if (ch == 'K') { exR = r; exC = c; } else if (ch != '.') {
+                char ch = raw.charAt(c);
+                if (ch != '.') {
                     g[r][c] = ch;
-                    locs.computeIfAbsent(ch, k -> new ArrayList<>()).add(new int[]{r, c});
+                    locs.computeIfAbsent(ch, k -> new ArrayList<>()).add(new int[] { r, c });
                 }
             }
         }
+
         if (exR == -1) throw new IllegalArgumentException("Exit 'K' not found");
         Map<Character, Piece> pcs = new HashMap<>();
         Piece prim = null;
@@ -130,7 +146,9 @@ public class Board {
             for (int i = 0; i < pc.length; i++) {
                 int r = pc.orient == Orientation.HORIZONTAL ? pc.row : pc.row + i;
                 int c = pc.orient == Orientation.HORIZONTAL ? pc.col + i : pc.col;
-                ng[r][c] = pc.id;
+                if (r >= 0 && r < rows && c >= 0 && c < cols) {
+                    ng[r][c] = pc.id;
+                }
             }
         }
         int newG = parent == null ? Math.abs(delta) : parent.g + Math.abs(delta);
