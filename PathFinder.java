@@ -1,0 +1,1 @@
+interface PathFinder { SearchResult search(Board start, Heuristic h); }
