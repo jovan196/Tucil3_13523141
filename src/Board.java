@@ -25,7 +25,7 @@ public class Board {
         int C = Integer.parseInt(dim[1]);
         int idx = 1;
         // second line optional N – we simply skip it (not strictly required)
-        try { Integer.parseInt(lines.get(idx).trim()); idx++; } catch (NumberFormatException ignored) {}
+        try { Integer.valueOf(lines.get(idx).trim()); idx++; } catch (NumberFormatException ignored) {}
 
         if (lines.size() - idx < R)
             throw new IllegalArgumentException("Not enough board rows – expected " + R);

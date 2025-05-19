@@ -1,8 +1,10 @@
 public class Main {
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
-            System.out.println("Usage: java Main <inputFile> <algorithm> [heuristicId]");
-            System.out.println("  <algorithm>  : ucs | gbfs | astar");
+            System.out.println("Cara Pakai: java Main <inputFile> <algoritma> [ID heuristik]");
+            System.out.println("  <inputFile> : file input (contoh: test.txt)");
+            System.out.println("  [ID heuristik]: ID heuristik (default: 1)");
+            System.out.println("  <algoritma>  : ucs | gbfs | astar");
             return;
         }
         String file = args[0];
@@ -14,7 +16,7 @@ public class Main {
             case "ucs"   -> new UniformCostSearch();
             case "gbfs"  -> new GreedyBestFirstSearch();
             case "astar" -> new AStarSearch();
-            default       -> throw new IllegalArgumentException("Unknown algorithm: " + alg);
+            default       -> throw new IllegalArgumentException("Algoritma tidak dikenal: " + alg);
         };
         Heuristic h = Heuristics.byId(hid);
 
@@ -22,8 +24,8 @@ public class Main {
         SearchResult res = pf.search(start, h);
         long exec = System.currentTimeMillis() - t0;
 
-        System.out.println("Visited nodes : " + res.visitedCount());
-        System.out.println("Time (ms)     : " + exec);
+        System.out.println("Simpul dikunjungi : " + res.visitedCount());
+        System.out.println("Waktu (ms)        : " + exec);
         Printer.printPath(res.path());
     }
 }
