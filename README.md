@@ -74,8 +74,8 @@ LLJMM.
 
 ## Author
 
-**Nama**: Jovandra Otniel P. S. (13523141)
-**Mata Kuliah**: IF2211 Strategi Algoritma – Tugas Kecil 3
-**Semester**: 2, Tahun Akademik 2024/2025
+Jovandra Otniel P. S. (13523141) <br />
+IF2211 Strategi Algoritma – Tugas Kecil 3 <br />
+Semester 2, Tahun Akademik 2024/2025 <br />
 
 ---
