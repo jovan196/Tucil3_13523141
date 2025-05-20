@@ -109,6 +109,14 @@ public class MainGUI extends JFrame {
         fc.setSelectedFile(new File("results.txt"));
         if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             File out = fc.getSelectedFile();
+            // warn if file exists
+            if (out.exists()) {
+                int choice = JOptionPane.showConfirmDialog(this,
+                        "File '" + out.getName() + "' already exists. Overwrite?",
+                        "Confirm Overwrite", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+                if (choice != JOptionPane.YES_OPTION) return;
+            }
             try (FileWriter fw = new FileWriter(out)) {
                 fw.write(buildResultText());
                 JOptionPane.showMessageDialog(this, "Results saved to " + out.getAbsolutePath(), "Saved", JOptionPane.INFORMATION_MESSAGE);
