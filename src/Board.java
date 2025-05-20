@@ -1,12 +1,12 @@
 import java.util.*;
 
 public class Board {
-    // immutable public fields for convenience (small program)
+    // atribut public final untuk memudahkan akses
     public final int rows, cols;
-    public final char[][] grid;               // '.' for empty
-    public final Map<Character, Piece> pieces; // id ➜ Piece (excl. exit)
-    public final Piece primary;               // the red piece 'P'
-    public final int exitRow, exitCol;        // coordinates of 'K'
+    public final char[][] grid;               // '.' untuk kosong, 'X' untuk halangan
+    public final Map<Character, Piece> pieces; // id -> Piece (tidak termasuk exit)
+    public final Piece primary;               // primary piece 'P'
+    public final int exitRow, exitCol;        // koordinat 'K'
 
     public record Pos(int r,int c){}
     public final Set<Pos> obstacles;
@@ -15,7 +15,7 @@ public class Board {
                  Map<Character, Piece> pieces, Piece primary,
                  int exitRow, int exitCol, Set<Pos> obstacles) {
         this.rows = rows; this.cols = cols;
-        // Create a defensive copy of the grid
+        // Deep copy grid
         this.grid = new char[grid.length][];
         for (int i = 0; i < grid.length; i++) {
             this.grid[i] = Arrays.copyOf(grid[i], grid[i].length);
@@ -25,7 +25,7 @@ public class Board {
         this.obstacles = obstacles;
     }
 
-    /* -------------------------  Parsing  ------------------------- */
+    // Parse input dari file
     public static Board parse(List<String> lines) {
         if (lines.size() < 3) throw new IllegalArgumentException("Input too short");
 
@@ -33,7 +33,8 @@ public class Board {
         int R = Integer.parseInt(dim[0]);
         int C = Integer.parseInt(dim[1]);
         int idx = 1;
-        // second line optional N – we simply skip it (not strictly required)
+        // Baris kedua (banyaknya piece) bisa diabaikan
+        // karena dihitung dari banyaknya karakter unik di baris-baris berikutnya
         try { Integer.valueOf(lines.get(idx).trim()); idx++; } catch (NumberFormatException ignored) {}
 
         if (lines.size() - idx < R)
@@ -65,7 +66,7 @@ public class Board {
                 }
                 continue;  // jangan masukkan ke boardLines
             }
-            // normal row → harus jadi bagian board
+            // normal row -> harus jadi bagian board
             boardLines.add(rawLine);
         }
         if (boardLines.size() < R)

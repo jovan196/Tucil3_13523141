@@ -22,14 +22,14 @@ public class Printer {
     public static String pretty(Board b, char moved) {
         StringBuilder sb = new StringBuilder();
 
-        // 1. Baris ekstra di ATAS (exitRow == -1)
+        // Baris ekstra di ATAS (exitRow == -1)
         if (b.exitRow == -1) {
             for (int c = 0; c < b.cols; c++)
                 sb.append(c == b.exitCol ? GREEN + 'K' + RESET : ' ');
             sb.append('\n');
         }
 
-        // 2. Baris-baris grid
+        // Baris-baris grid
         for (int r = 0; r < b.rows; r++) {
             // K di kiri?
             if (b.exitCol == -1 && r == b.exitRow)
@@ -52,7 +52,7 @@ public class Printer {
             sb.append('\n');
         }
 
-        // 3. Baris ekstra di BAWAH (exitRow == rows)
+        // Baris ekstra di BAWAH (exitRow == rows)
         if (b.exitRow == b.rows) {
             for (int c = 0; c < b.cols; c++)
                 sb.append(c == b.exitCol ? GREEN + 'K' + RESET : ' ');

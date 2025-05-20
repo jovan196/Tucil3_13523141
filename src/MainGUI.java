@@ -37,7 +37,7 @@ public class MainGUI extends JFrame {
         solve.addActionListener(e -> doSolve());
         top.add(solve);
 
-        // add top controls without status label
+        // menambahkan panel papan ke dalam panel utama
         add(top, BorderLayout.NORTH);
         add(boardPanel, BorderLayout.CENTER);
         JPanel nav = new JPanel();
@@ -51,12 +51,12 @@ public class MainGUI extends JFrame {
         nav.add(prevBtn); nav.add(nextBtn);
         nav.add(saveBtn);
         nav.add(playBtn);
-        // combine navigation and status label at bottom
+        // menyatukan tombol navigasi dan status label
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.add(nav, BorderLayout.WEST);
         bottom.add(statusLabel, BorderLayout.EAST);
         add(bottom, BorderLayout.SOUTH);
-        // setup auto-play timer
+        // setup timer auto-play
         playTimer = new Timer(1000, e -> autoNext());
         playTimer.start();
         playBtn.addActionListener(e -> {
@@ -67,7 +67,7 @@ public class MainGUI extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    /** Advance to next step automatically */
+    // auto-play next step
     private void autoNext() {
         if (path != null && currentIndex < path.size() - 1) {
             currentIndex++;
@@ -77,9 +77,8 @@ public class MainGUI extends JFrame {
         }
     }
 
-    /** Start auto-play */
     private void startSlidePlay() {
-        // if at end, wrap back to the beginning
+        // Kalau sudah sampai akhir, ulangi dari awal
         if (path != null && currentIndex >= path.size() - 1) {
             currentIndex = 0;
             updateBoard();
@@ -88,7 +87,6 @@ public class MainGUI extends JFrame {
         playBtn.setText("Stop");
     }
 
-    /** Stop auto-play */
     private void stopSlidePlay() {
         playTimer.stop();
         playBtn.setText("Play");
@@ -107,15 +105,15 @@ public class MainGUI extends JFrame {
                 default      -> throw new IllegalArgumentException();
             };
             Heuristic h = Heuristics.byId(hid);
-            // run search
+            // mencari solusi
             long t0 = System.currentTimeMillis();
             SearchResult res = pf.search(start, h);
             execTime = System.currentTimeMillis() - t0;
             visitedCount = res.visitedCount();
-            // display as colored board steps
+            // menampilkan hasil pencarian
             path = res.path();
             currentIndex = 0;
-            // show error if no solution found
+            // error kalau tidak ada solusi
             if (path.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
                         "Tidak ada solusi ditemukan.",
@@ -123,7 +121,7 @@ public class MainGUI extends JFrame {
                 return;
             }
             updateBoard();
-            // auto-play solution by default
+            // auto-play setelah menyelesaikan pencarian
             startSlidePlay();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(),
@@ -133,11 +131,11 @@ public class MainGUI extends JFrame {
 
     private void updateBoard() {
         boardPanel.setBoard(path.get(currentIndex).board);
-        // update status with visited, time, and current step
+        // update status label
         statusLabel.setText(String.format("Node Dikunjungi: %d Waktu: %dms Step: %d/%d", visitedCount, execTime, currentIndex+1, path.size()));
     }
    
-    /** Prompt to save current results to a .txt file */
+    // save hasil pencarian ke file
     private void doSave() {
         if (path == null) {
             JOptionPane.showMessageDialog(this, "No results to save.", "Info", JOptionPane.INFORMATION_MESSAGE);
@@ -148,7 +146,7 @@ public class MainGUI extends JFrame {
         fc.setSelectedFile(new File("results.txt"));
         if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             File out = fc.getSelectedFile();
-            // warn if file exists
+            // periksa apakah file sudah ada
             if (out.exists()) {
                 int choice = JOptionPane.showConfirmDialog(this,
                         "File '" + out.getName() + "' already exists. Overwrite?",
@@ -165,7 +163,7 @@ public class MainGUI extends JFrame {
         }
     }
 
-    /** Build CLI-style output string for the current solution path */
+    // Membangun teks hasil pencarian
     private String buildResultText() {
         StringBuilder sb = new StringBuilder();
         sb.append("Node Dikunjungi: ").append(visitedCount).append("\n")
@@ -176,14 +174,13 @@ public class MainGUI extends JFrame {
             State s = path.get(i);
             if (i == 0) sb.append("Kondisi Awal Papan:\n");
             else sb.append("Step ").append(i).append(": ").append(s.move).append("\n");
-            // strip ANSI color codes before saving
+            // hapus ANSI escape codes
             String plain = stripAnsi(Printer.pretty(s.board, s.move==null ? '\0' : s.move.piece));
             sb.append(plain).append("\n");
         }
         return sb.toString();
     }
 
-    /** Remove ANSI escape codes from a string */
     private String stripAnsi(String s) {
         return s.replaceAll("\\x1B\\[[;\\d]*m", "");
     }

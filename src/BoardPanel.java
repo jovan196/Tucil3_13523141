@@ -59,13 +59,13 @@ public class BoardPanel extends JPanel {
         // exit
         g.setColor(EXIT);
         int er = board.exitRow, ec = board.exitCol;
-        if (er == -1)                         // top
+        if (er == -1)                         // atas
             g.fillRect(offX + ec*cellW, offY, cellW, cellH/4);
-        else if (er == R)                     // bottom
+        else if (er == R)                     // bawah
             g.fillRect(offX + ec*cellW, offY + R*cellH - cellH/4, cellW, cellH/4);
-        else if (ec == -1)                    // left
+        else if (ec == -1)                    // kiri
             g.fillRect(offX, offY + er*cellH, cellW/4, cellH);
-        else if (ec == C)                     // right
+        else if (ec == C)                     // kanan
             g.fillRect(offX + C*cellW - cellW/4, offY + er*cellH, cellW/4, cellH);
     }
 }

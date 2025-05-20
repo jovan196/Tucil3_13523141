@@ -2,14 +2,14 @@ public class Heuristics {
     private Heuristics() {}
 
     /*
-     * H1 – "blocking cars + distance"  (admissible)
-     *   f(n) = (#empty cells between primary tail & exit)
-     *         + 2 × (#blocking pieces along that line)
+     * H1 – "mobil penghalang + jarak" (admissible)
+     *   f(n) = (#sel kosong antara ekor primary & exit)
+     *         + 2 × (#potongan penghalang di sepanjang jalur tersebut)
      */
     public static final Heuristic H1 = b -> {
         Piece p = b.primary;
         if (p.orient == Orientation.HORIZONTAL) {
-            int dist = b.exitCol - p.tailCol() - 1;  // empty cells before exit
+            int dist = b.exitCol - p.tailCol() - 1;  // cell kosong
             int blockers = 0;
             for (int c = p.tailCol() + 1; c < b.exitCol; c++) if (b.grid[p.row][c] != '.') blockers++;
             return dist + blockers * 2;
@@ -33,7 +33,7 @@ public class Heuristics {
             int block = 0;
             for (int c = p.tailCol() + 1; c < b.exitCol; c++)
                 if (b.grid[p.row][c] != '.') block++;
-            return dist + block;           // koefisien 1 → selalu ≤ biaya riil
+            return dist + block;           // koefisien 1 -> selalu ≤ biaya real
         } else {
             int dist = b.exitRow - p.tailRow() - 1;
             int block = 0;
@@ -44,13 +44,13 @@ public class Heuristics {
     };
 
     /*------------------------------------------------------------------
-     * H3 – distance + 2×blocking + “secondary blocker” penalty
-     *    • Hitung blocker langsung di jalur P ⇒ K  (seperti H1)
-     *    • Tambah +1 lagi **per kendaraan** yang menghalangi blocker
+     * H3 – distance + 2 × blocking + “secondary blocker” penalty
+     *    0 Hitung blocker langsung di jalur P -> K  (seperti H1)
+     *    - Tambah +1 lagi per kendaraan yang menghalangi blocker
      *      pertama bila ia hendak bergeser satu sel (estimasi kasar).
-     *    • Jika sel rintangan 'X' tepat di jalur → kembalikan Integer.MAX_VALUE
+     *    - Jika sel rintangan 'X' tepat di jalur -> kembalikan Integer.MAX_VALUE
      *      agar A* / GBFS  praktis menghindari state tak‐solvable.
-     *    • Heuristik ini bias ke arah besar  ⇒  bisa *inadmissible*,
+     *    - Heuristik ini bias ke arah besar  ->  bisa *inadmissible*,
      *      namun sering memangkas eksplorasi.
      *-----------------------------------------------------------------*/
     public static final Heuristic H3 = b -> {
@@ -69,7 +69,7 @@ public class Heuristics {
                 if (id == '.') continue;
                 if (id == 'X') return Integer.MAX_VALUE; // dinding permanen
                 block++;
-                // cek satu sel di atas & bawah blocker — apakah juga terisi?
+                // cek satu sel di atas & bawah blocker, apakah juga terisi?
                 if (occupied.test(p.row-1, c) || occupied.test(p.row+1, c))
                     secBlock++;
             }
