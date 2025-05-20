@@ -129,11 +129,13 @@ public class MainGUI extends JFrame {
     /** Build CLI-style output string for the current solution path */
     private String buildResultText() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Node Dikunjungi: ").append(visitedCount)
-          .append("   Waktu (ms): ").append(execTime).append("\n\n");
+        sb.append("Node Dikunjungi: ").append(visitedCount).append("\n")
+          .append("Waktu (ms): ").append(execTime).append("\n")
+          .append("Algoritma: ").append(algBox.getSelectedItem()).append("\n")
+          .append("H-ID: ").append(hBox.getSelectedItem()).append("\n\n");
         for (int i = 0; i < path.size(); i++) {
             State s = path.get(i);
-            if (i == 0) sb.append("Awal:\n");
+            if (i == 0) sb.append("Kondisi Awal Papan:\n");
             else sb.append("Langkah ").append(i).append(": ").append(s.move).append("\n");
             // strip ANSI color codes before saving
             String plain = stripAnsi(Printer.pretty(s.board, s.move==null ? '\0' : s.move.piece));
