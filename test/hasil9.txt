@@ -1,0 +1,401 @@
+Node Dikunjungi: 1521
+Waktu (ms): 21
+Algoritma: astar
+H-ID: 1
+
+Kondisi Awal Papan:
+A..BBB
+ACCP..
+AL.PDD
+ELFFFG
+EHH..G
+IIJJ.G
+   K  
+
+Step 1: 119R
+A..BBB
+ACCP..
+AL.PDD
+ELFFFG
+EHH..G
+II.JJG
+   K  
+
+Step 2: 118R
+A..BBB
+ACCP..
+AL.PDD
+ELFFFG
+EHH..G
+.IIJJG
+   K  
+
+Step 3: 114R
+A..BBB
+ACCP..
+AL.PDD
+.LFFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 4: 110R
+...BBB
+ACCP..
+AL.PDD
+ALFFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 5: 111L3
+BBB...
+ACCP..
+AL.PDD
+ALFFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 6: 125L
+BBBP..
+ACCP..
+AL..DD
+ALFFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 7: 113L
+BBBP..
+ACCP..
+AL.DD.
+ALFFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 8: 116L
+BBBP..
+ACCP..
+AL.DDG
+ALFFFG
+EHH..G
+EIIJJ.
+   K  
+
+Step 9: 119R
+BBBP..
+ACCP..
+AL.DDG
+ALFFFG
+EHH..G
+EII.JJ
+   K  
+
+Step 10: 117R
+BBBP..
+ACCP..
+AL.DDG
+ALFFFG
+E.HH.G
+EII.JJ
+   K  
+
+Step 11: 121R
+BBBP..
+ACCP..
+A..DDG
+ALFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 12: 113L2
+BBBP..
+ACCP..
+ADD..G
+ALFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 13: 125R
+BBB...
+ACCP..
+ADDP.G
+ALFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 14: 111R
+.BBB..
+ACCP..
+ADDP.G
+ALFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 15: 110L
+ABBB..
+ACCP..
+ADDP.G
+.LFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 16: 118R
+ABBB..
+ACCP..
+ADDP.G
+.LFFFG
+ELHH.G
+E.IIJJ
+   K  
+
+Step 17: 121R
+ABBB..
+ACCP..
+ADDP.G
+..FFFG
+ELHH.G
+ELIIJJ
+   K  
+
+Step 18: 115L2
+ABBB..
+ACCP..
+ADDP.G
+FFF..G
+ELHH.G
+ELIIJJ
+   K  
+
+Step 19: 125R
+ABBB..
+ACC...
+ADDP.G
+FFFP.G
+ELHH.G
+ELIIJJ
+   K  
+
+Step 20: 112R3
+ABBB..
+A...CC
+ADDP.G
+FFFP.G
+ELHH.G
+ELIIJJ
+   K  
+
+Step 21: 125L
+ABBB..
+A..PCC
+ADDP.G
+FFF..G
+ELHH.G
+ELIIJJ
+   K  
+
+Step 22: 115R2
+ABBB..
+A..PCC
+ADDP.G
+..FFFG
+ELHH.G
+ELIIJJ
+   K  
+
+Step 23: 121L
+ABBB..
+A..PCC
+ADDP.G
+.LFFFG
+ELHH.G
+E.IIJJ
+   K  
+
+Step 24: 118L
+ABBB..
+A..PCC
+ADDP.G
+.LFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 25: 110R
+.BBB..
+A..PCC
+ADDP.G
+ALFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 26: 111L
+BBB...
+A..PCC
+ADDP.G
+ALFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 27: 125L
+BBBP..
+A..PCC
+ADD..G
+ALFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 28: 113R
+BBBP..
+A..PCC
+A.DD.G
+ALFFFG
+ELHH.G
+EII.JJ
+   K  
+
+Step 29: 121L
+BBBP..
+A..PCC
+ALDD.G
+ALFFFG
+E.HH.G
+EII.JJ
+   K  
+
+Step 30: 117L
+BBBP..
+A..PCC
+ALDD.G
+ALFFFG
+EHH..G
+EII.JJ
+   K  
+
+Step 31: 119L
+BBBP..
+A..PCC
+ALDD.G
+ALFFFG
+EHH..G
+EIIJJ.
+   K  
+
+Step 32: 116R
+BBBP..
+A..PCC
+ALDD..
+ALFFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 33: 113R2
+BBBP..
+A..PCC
+AL..DD
+ALFFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 34: 125R
+BBB...
+A..PCC
+AL.PDD
+ALFFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 35: 121L
+BBB...
+AL.PCC
+AL.PDD
+A.FFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 36: 111R
+.BBB..
+AL.PCC
+AL.PDD
+A.FFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 37: 110L
+ABBB..
+AL.PCC
+AL.PDD
+..FFFG
+EHH..G
+EIIJJG
+   K  
+
+Step 38: 115L2
+ABBB..
+AL.PCC
+AL.PDD
+FFF..G
+EHH..G
+EIIJJG
+   K  
+
+Step 39: 125R2
+ABBB..
+AL..CC
+AL..DD
+FFFP.G
+EHHP.G
+EIIJJG
+   K  
+
+Step 40: 113L
+ABBB..
+AL..CC
+AL.DD.
+FFFP.G
+EHHP.G
+EIIJJG
+   K  
+
+Step 41: 116L
+ABBB..
+AL..CC
+AL.DDG
+FFFP.G
+EHHP.G
+EIIJJ.
+   K  
+
+Step 42: 119R
+ABBB..
+AL..CC
+AL.DDG
+FFFP.G
+EHHP.G
+EII.JJ
+   K  
+
+Step 43: 125R2
+ABBB..
+AL..CC
+AL.DDG
+FFF..G
+EHH..G
+EIIPJJ
+   K  
+

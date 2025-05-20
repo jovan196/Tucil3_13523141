@@ -1,5 +1,5 @@
 Node Dikunjungi: 2687
-Waktu (ms): 103
+Waktu (ms): 55
 Algoritma: astar
 H-ID: 2
 
