@@ -1,0 +1,53 @@
+Node Dikunjungi: 743
+Waktu (ms): 88
+Algoritma: ucs
+H-ID: 1
+
+Kondisi Awal Papan:
+AAB..F
+..BCDF
+GPPCDFK
+GH.III
+GHJ...
+LLJMM.
+
+Step 1: 112L
+AABC.F
+..BCDF
+GPP.DFK
+GH.III
+GHJ...
+LLJMM.
+
+Step 2: 118L
+AABC.F
+..BCDF
+GPP.DFK
+GHIII.
+GHJ...
+LLJMM.
+
+Step 3: 113L
+AABCDF
+..BCDF
+GPP..FK
+GHIII.
+GHJ...
+LLJMM.
+
+Step 4: 115R3
+AABCD.
+..BCD.
+GPP...K
+GHIIIF
+GHJ..F
+LLJMMF
+
+Step 5: 125R4
+AABCD.
+..BCD.
+G....PK
+GHIIIF
+GHJ..F
+LLJMMF
+

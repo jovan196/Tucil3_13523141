@@ -1,6 +1,7 @@
 4 4
 3
- .BBB
-KPPPA
- ...A
- ..CC
+BP..
+BP.C
+BAAC
+....
+ K  

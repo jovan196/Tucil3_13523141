@@ -1,0 +1,33 @@
+Node Dikunjungi: 8
+Waktu (ms): 0
+Algoritma: astar
+H-ID: 2
+
+Kondisi Awal Papan:
+BP..
+BP.C
+BAAC
+....
+ K  
+
+Step 1: 112L
+BP.C
+BP.C
+BAA.
+....
+ K  
+
+Step 2: 110R
+BP.C
+BP.C
+B.AA
+....
+ K  
+
+Step 3: 125R3
+B..C
+B..C
+B.AA
+.P..
+ K  
+

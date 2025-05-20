@@ -16,12 +16,14 @@ public class MainGUI extends JFrame {
     private long execTime;
     private long visitedCount;
     private final JButton saveBtn = new JButton("Save Results");
+    private final JButton playBtn = new JButton("Stop");
+    private Timer playTimer;
 
     public MainGUI() {
         super("RushHour Solver");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         JPanel top = new JPanel();
-        statusLabel = new JLabel("Node Dikunjungi: 0 Waktu: 0ms Langkah: 0/0");
+        statusLabel = new JLabel("Node Dikunjungi: 0 Waktu: 0ms Step: 0/0");
         JButton browse = new JButton("Browse…");
         browse.addActionListener(e -> {
             JFileChooser fc = new JFileChooser();
@@ -48,13 +50,48 @@ public class MainGUI extends JFrame {
         saveBtn.addActionListener(e -> doSave());
         nav.add(prevBtn); nav.add(nextBtn);
         nav.add(saveBtn);
+        nav.add(playBtn);
         // combine navigation and status label at bottom
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.add(nav, BorderLayout.WEST);
         bottom.add(statusLabel, BorderLayout.EAST);
         add(bottom, BorderLayout.SOUTH);
+        // setup auto-play timer
+        playTimer = new Timer(1000, e -> autoNext());
+        playTimer.start();
+        playBtn.addActionListener(e -> {
+            if (playTimer.isRunning()) stopSlidePlay();
+            else startSlidePlay();
+        });
         pack();
         setLocationRelativeTo(null);
+    }
+
+    /** Advance to next step automatically */
+    private void autoNext() {
+        if (path != null && currentIndex < path.size() - 1) {
+            currentIndex++;
+            SwingUtilities.invokeLater(this::updateBoard);
+        } else {
+            stopSlidePlay();
+        }
+    }
+
+    /** Start auto-play */
+    private void startSlidePlay() {
+        // if at end, wrap back to the beginning
+        if (path != null && currentIndex >= path.size() - 1) {
+            currentIndex = 0;
+            updateBoard();
+        }
+        playTimer.start();
+        playBtn.setText("Stop");
+    }
+
+    /** Stop auto-play */
+    private void stopSlidePlay() {
+        playTimer.stop();
+        playBtn.setText("Play");
     }
 
     private void doSolve() {
@@ -86,6 +123,8 @@ public class MainGUI extends JFrame {
                 return;
             }
             updateBoard();
+            // auto-play solution by default
+            startSlidePlay();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(),
                                           "Error", JOptionPane.ERROR_MESSAGE);
@@ -95,7 +134,7 @@ public class MainGUI extends JFrame {
     private void updateBoard() {
         boardPanel.setBoard(path.get(currentIndex).board);
         // update status with visited, time, and current step
-        statusLabel.setText(String.format("Node Dikunjungi: %d Waktu: %dms Langkah: %d/%d", visitedCount, execTime, currentIndex+1, path.size()));
+        statusLabel.setText(String.format("Node Dikunjungi: %d Waktu: %dms Step: %d/%d", visitedCount, execTime, currentIndex+1, path.size()));
     }
    
     /** Prompt to save current results to a .txt file */
@@ -136,7 +175,7 @@ public class MainGUI extends JFrame {
         for (int i = 0; i < path.size(); i++) {
             State s = path.get(i);
             if (i == 0) sb.append("Kondisi Awal Papan:\n");
-            else sb.append("Langkah ").append(i).append(": ").append(s.move).append("\n");
+            else sb.append("Step ").append(i).append(": ").append(s.move).append("\n");
             // strip ANSI color codes before saving
             String plain = stripAnsi(Printer.pretty(s.board, s.move==null ? '\0' : s.move.piece));
             sb.append(plain).append("\n");

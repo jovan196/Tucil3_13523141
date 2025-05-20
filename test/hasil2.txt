@@ -1,0 +1,25 @@
+Node Dikunjungi: 4
+Waktu (ms): 0
+Algoritma: gbfs
+H-ID: 1
+
+Kondisi Awal Papan:
+PPAK
+..A
+.BB
+
+Step 1: 111L
+PPAK
+..A
+BB.
+
+Step 2: 110R
+PP.K
+..A
+BBA
+
+Step 3: 125R2
+..PK
+..A
+BBA
+

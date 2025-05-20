@@ -1,5 +1,5 @@
 Node Dikunjungi: 1051
-Waktu (ms): 32
+Waktu (ms): 43
 Algoritma: astar
 H-ID: 3
 
@@ -11,7 +11,7 @@ F..GHH
 I..GJJ
 ILLMMM
 
-Langkah 1: 114R2
+Step 1: 114R2
 AABBBC
 DD...C
 F..PPCK
@@ -19,7 +19,7 @@ F.EGHH
 I.EGJJ
 ILLMMM
 
-Langkah 2: 125L2
+Step 2: 125L2
 AABBBC
 DD...C
 FPP..CK
@@ -27,7 +27,7 @@ F.EGHH
 I.EGJJ
 ILLMMM
 
-Langkah 3: 116L2
+Step 3: 116L2
 AABBBC
 DD.G.C
 FPPG.CK
@@ -35,7 +35,7 @@ F.E.HH
 I.E.JJ
 ILLMMM
 
-Langkah 4: 119L
+Step 4: 119L
 AABBBC
 DD.G.C
 FPPG.CK
@@ -43,7 +43,7 @@ F.E.HH
 I.EJJ.
 ILLMMM
 
-Langkah 5: 117L
+Step 5: 117L
 AABBBC
 DD.G.C
 FPPG.CK
@@ -51,7 +51,7 @@ F.EHH.
 I.EJJ.
 ILLMMM
 
-Langkah 6: 113R
+Step 6: 113R
 AABBBC
 .DDG.C
 FPPG.CK
@@ -59,7 +59,7 @@ F.EHH.
 I.EJJ.
 ILLMMM
 
-Langkah 7: 112R2
+Step 7: 112R2
 AABBB.
 .DDG..
 FPPG.CK
@@ -67,7 +67,7 @@ F.EHHC
 I.EJJC
 ILLMMM
 
-Langkah 8: 111R
+Step 8: 111R
 AA.BBB
 .DDG..
 FPPG.CK
@@ -75,7 +75,7 @@ F.EHHC
 I.EJJC
 ILLMMM
 
-Langkah 9: 110R
+Step 9: 110R
 .AABBB
 .DDG..
 FPPG.CK
@@ -83,7 +83,7 @@ F.EHHC
 I.EJJC
 ILLMMM
 
-Langkah 10: 115L2
+Step 10: 115L2
 FAABBB
 FDDG..
 .PPG.CK
@@ -91,7 +91,7 @@ FDDG..
 I.EJJC
 ILLMMM
 
-Langkah 11: 118L
+Step 11: 118L
 FAABBB
 FDDG..
 .PPG.CK
@@ -99,7 +99,7 @@ I.EHHC
 I.EJJC
 .LLMMM
 
-Langkah 12: 121L
+Step 12: 121L
 FAABBB
 FDDG..
 .PPG.CK
@@ -107,7 +107,7 @@ I.EHHC
 I.EJJC
 LL.MMM
 
-Langkah 13: 114R
+Step 13: 114R
 FAABBB
 FDDG..
 .PPG.CK
@@ -115,7 +115,7 @@ I..HHC
 I.EJJC
 LLEMMM
 
-Langkah 14: 117L2
+Step 14: 117L2
 FAABBB
 FDDG..
 .PPG.CK
@@ -123,7 +123,7 @@ IHH..C
 I.EJJC
 LLEMMM
 
-Langkah 15: 116R
+Step 15: 116R
 FAABBB
 FDD...
 .PPG.CK
@@ -131,7 +131,7 @@ IHHG.C
 I.EJJC
 LLEMMM
 
-Langkah 16: 113R3
+Step 16: 113R3
 FAABBB
 F...DD
 .PPG.CK
@@ -139,7 +139,7 @@ IHHG.C
 I.EJJC
 LLEMMM
 
-Langkah 17: 116L
+Step 17: 116L
 FAABBB
 F..GDD
 .PPG.CK
@@ -147,7 +147,7 @@ IHH..C
 I.EJJC
 LLEMMM
 
-Langkah 18: 125L
+Step 18: 125L
 FAABBB
 F..GDD
 PP.G.CK
@@ -155,7 +155,7 @@ IHH..C
 I.EJJC
 LLEMMM
 
-Langkah 19: 117R2
+Step 19: 117R2
 FAABBB
 F..GDD
 PP.G.CK
@@ -163,7 +163,7 @@ I..HHC
 I.EJJC
 LLEMMM
 
-Langkah 20: 114L3
+Step 20: 114L3
 FAABBB
 F.EGDD
 PPEG.CK
@@ -171,7 +171,7 @@ I..HHC
 I..JJC
 LL.MMM
 
-Langkah 21: 117L2
+Step 21: 117L2
 FAABBB
 F.EGDD
 PPEG.CK
@@ -179,7 +179,7 @@ IHH..C
 I..JJC
 LL.MMM
 
-Langkah 22: 116R
+Step 22: 116R
 FAABBB
 F.E.DD
 PPEG.CK
@@ -187,7 +187,7 @@ IHHG.C
 I..JJC
 LL.MMM
 
-Langkah 23: 113L
+Step 23: 113L
 FAABBB
 F.EDD.
 PPEG.CK
@@ -195,7 +195,7 @@ IHHG.C
 I..JJC
 LL.MMM
 
-Langkah 24: 112L
+Step 24: 112L
 FAABBB
 F.EDDC
 PPEG.CK
@@ -203,7 +203,7 @@ IHHG.C
 I..JJ.
 LL.MMM
 
-Langkah 25: 119R
+Step 25: 119R
 FAABBB
 F.EDDC
 PPEG.CK
@@ -211,7 +211,7 @@ IHHG.C
 I...JJ
 LL.MMM
 
-Langkah 26: 116R
+Step 26: 116R
 FAABBB
 F.EDDC
 PPE..CK
@@ -219,7 +219,7 @@ IHHG.C
 I..GJJ
 LL.MMM
 
-Langkah 27: 121R
+Step 27: 121R
 FAABBB
 F.EDDC
 PPE..CK
@@ -227,7 +227,7 @@ IHHG.C
 I..GJJ
 .LLMMM
 
-Langkah 28: 118R
+Step 28: 118R
 FAABBB
 F.EDDC
 PPE..CK
@@ -235,7 +235,7 @@ PPE..CK
 I..GJJ
 ILLMMM
 
-Langkah 29: 117L
+Step 29: 117L
 FAABBB
 F.EDDC
 PPE..CK
@@ -243,7 +243,7 @@ HH.G.C
 I..GJJ
 ILLMMM
 
-Langkah 30: 114R2
+Step 30: 114R2
 FAABBB
 F..DDC
 PP...CK
@@ -251,7 +251,7 @@ HHEG.C
 I.EGJJ
 ILLMMM
 
-Langkah 31: 125R3
+Step 31: 125R3
 FAABBB
 F..DDC
 ...PPCK
@@ -259,7 +259,7 @@ HHEG.C
 I.EGJJ
 ILLMMM
 
-Langkah 32: 115R
+Step 32: 115R
 .AABBB
 F..DDC
 F..PPCK
@@ -267,7 +267,7 @@ HHEG.C
 I.EGJJ
 ILLMMM
 
-Langkah 33: 110L
+Step 33: 110L
 AA.BBB
 F..DDC
 F..PPCK
@@ -275,7 +275,7 @@ HHEG.C
 I.EGJJ
 ILLMMM
 
-Langkah 34: 114L3
+Step 34: 114L3
 AAEBBB
 F.EDDC
 F..PPCK
@@ -283,7 +283,7 @@ HH.G.C
 I..GJJ
 ILLMMM
 
-Langkah 35: 125L2
+Step 35: 125L2
 AAEBBB
 F.EDDC
 FPP..CK
@@ -291,7 +291,7 @@ HH.G.C
 I..GJJ
 ILLMMM
 
-Langkah 36: 116L
+Step 36: 116L
 AAEBBB
 F.EDDC
 FPPG.CK
@@ -299,7 +299,7 @@ HH.G.C
 I...JJ
 ILLMMM
 
-Langkah 37: 119L3
+Step 37: 119L3
 AAEBBB
 F.EDDC
 FPPG.CK
@@ -307,7 +307,7 @@ HH.G.C
 IJJ...
 ILLMMM
 
-Langkah 38: 116R
+Step 38: 116R
 AAEBBB
 F.EDDC
 FPP..CK
@@ -315,7 +315,7 @@ HH.G.C
 IJJG..
 ILLMMM
 
-Langkah 39: 125R
+Step 39: 125R
 AAEBBB
 F.EDDC
 F.PP.CK
@@ -323,7 +323,7 @@ HH.G.C
 IJJG..
 ILLMMM
 
-Langkah 40: 117R
+Step 40: 117R
 AAEBBB
 F.EDDC
 F.PP.CK
@@ -331,7 +331,7 @@ F.PP.CK
 IJJG..
 ILLMMM
 
-Langkah 41: 118L
+Step 41: 118L
 AAEBBB
 F.EDDC
 F.PP.CK
@@ -339,7 +339,7 @@ IHHG.C
 IJJG..
 .LLMMM
 
-Langkah 42: 121L
+Step 42: 121L
 AAEBBB
 F.EDDC
 F.PP.CK
@@ -347,7 +347,7 @@ IHHG.C
 IJJG..
 LL.MMM
 
-Langkah 43: 122L
+Step 43: 122L
 AAEBBB
 F.EDDC
 F.PP.CK
@@ -355,7 +355,7 @@ IHHG.C
 IJJG..
 LLMMM.
 
-Langkah 44: 112R2
+Step 44: 112R2
 AAEBBB
 F.EDD.
 F.PP..K
@@ -363,7 +363,7 @@ IHHG.C
 IJJG.C
 LLMMMC
 
-Langkah 45: 125R3
+Step 45: 125R3
 AAEBBB
 F.EDD.
 F....PK
