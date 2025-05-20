@@ -34,38 +34,63 @@ public class Board {
         for (char[] row : g) Arrays.fill(row, '.');
 
         Map<Character, List<int[]>> locs = new HashMap<>();
-        int exR = -1, exC = -1;
+        int exR = -2, exC = -2;
 
+    List<String> rawRows = lines.subList(idx, lines.size());
+    List<String> boardLines = new ArrayList<>();
+        for (int i = 0; i < rawRows.size(); i++) {
+            String rawLine = rawRows.get(i);
+            String trim = rawLine.trim();
+            // baris hanya 'K'? berarti pintu atas (jika boardLines kosong) 
+            // atau pintu bawah (jika boardLines sudah lengkap)
+            if (trim.equals("K")) {
+                int c = rawLine.indexOf('K');
+                if (boardLines.isEmpty()) {
+                    exR = -1;    // exit di atas baris-0
+                    exC = c;
+                } else if (boardLines.size() == R) {
+                    exR = R;     // exit di bawah baris-(R-1)
+                    exC = c;
+                } else {
+                    throw new IllegalArgumentException("Baris 'K' muncul di tengah input");
+                }
+                continue;  // jangan masukkan ke boardLines
+            }
+            // normal row → harus jadi bagian board
+            boardLines.add(rawLine);
+        }
+        if (boardLines.size() < R)
+            throw new IllegalArgumentException("Tidak cukup baris board; dibutuhkan " + R);
+
+        // 2) Sekarang isi grid dari boardLines[0..R-1], deteksi juga K di kiri/kanan:
         for (int r = 0; r < R; r++) {
-            String raw = lines.get(idx + r).trim();           // baris mentah
-            // ────────────────── deteksi K di dinding ──────────────────
-            if (raw.length() == C + 1) {                      // ada 1 sel ekstra
-                if (raw.charAt(0) == 'K') {                   // K di kiri papan
-                    exR = r; exC = -1;                // use local vars
-                    raw = raw.substring(1);                   // buang 'K'
-                } else if (raw.charAt(raw.length() - 1) == 'K') {  // K di kanan
-                    exR = r; exC = C;                 // use local vars
-                    raw = raw.substring(0, raw.length() - 1); // buang 'K'
+            String raw = boardLines.get(r).trim();
+            // deteksi K di kiri/kanan seperti sebelumnya:
+            if (raw.length() == C + 1) {
+                if (raw.charAt(0) == 'K') {
+                    exR = r; exC = -1;
+                    raw = raw.substring(1);
+                } else if (raw.charAt(raw.length()-1) == 'K') {
+                    exR = r; exC = C;
+                    raw = raw.substring(0, raw.length()-1);
                 } else {
                     throw new IllegalArgumentException("Extra char bukan 'K' di row " + r);
                 }
             } else if (raw.length() != C) {
-                throw new IllegalArgumentException(
-                    "Row " + r + " length " + raw.length() + " ≠ " + C);
+                throw new IllegalArgumentException("Row " + r + " length " + raw.length() + " ≠ " + C);
             }
-            // -----------------------------------------------------------
-
-            // sekarang 'raw' pasti panjangnya persis C
+            // isi cell dan kumpulkan lokasi piece
             for (int c = 0; c < C; c++) {
                 char ch = raw.charAt(c);
                 if (ch != '.') {
                     g[r][c] = ch;
-                    locs.computeIfAbsent(ch, k -> new ArrayList<>()).add(new int[] { r, c });
+                    locs.computeIfAbsent(ch, k -> new ArrayList<>()).add(new int[]{r,c});
                 }
             }
         }
 
-        if (exR == -1) throw new IllegalArgumentException("Exit 'K' not found");
+        if (exR == -2)
+            throw new IllegalArgumentException("Exit 'K' tidak ditemukan di sisi mana pun");
         Map<Character, Piece> pcs = new HashMap<>();
         Piece prim = null;
         for (var e : locs.entrySet()) {
@@ -105,31 +130,75 @@ public class Board {
         while (c < cols && grid[p.row][c] == '.') { out.add(createChild(parent, p, c - p.tailCol())); c++; }
         // special: exit
         if (p.id == 'P' && p.row == exitRow && p.tailCol() < exitCol) {
-            boolean clear = true;
-            for (int cc = p.tailCol() + 1; cc < exitCol; cc++) if (grid[p.row][cc] != '.') { clear = false; break; }
-            if (clear) {
-                State goal = createChild(parent, p, exitCol - p.tailCol());
-                goal.isGoal = true;
-                out.add(goal);
+            // special: exit horizontal
+            if (p.id=='P' && p.row==exitRow) {
+                // jika exit di kanan (exitCol == cols)
+                if (exitCol == cols && p.tailCol() < cols) {
+                    boolean clear = true;
+                    for (int cc = p.tailCol()+1; cc < cols; cc++)
+                        if (grid[p.row][cc] != '.') { clear = false; break; }
+                    if (clear) {
+                        State goal = createChild(parent, p, cols - p.tailCol());
+                        goal.isGoal = true; out.add(goal);
+                    }
+                }
+                // jika exit di kiri (exitCol == -1)
+                else if (exitCol == -1) {          // pintu di luar kolom -1
+                    boolean clear = true;
+                    for (int cc = p.col - 1; cc >= 0; cc--)
+                        if (grid[p.row][cc] != '.') { clear = false; break; }
+                    if (clear) {
+                        int delta = -(p.col + 1);  // geser sampai keluar
+                        State goal = createChild(parent, p, delta);
+                        goal.isGoal = true; out.add(goal);
+                    }
+                }
+
             }
         }
     }
 
     private void slideVertical(State parent, List<State> out, Piece p) {
-        // up
+        // geser ke atas
         int r = p.row - 1;
-        while (r >= 0 && grid[r][p.col] == '.') { out.add(createChild(parent, p, r - p.row)); r--; }
-        // down
+        while (r >= 0 && grid[r][p.col] == '.') {
+            out.add(createChild(parent, p, r - p.row));
+            r--;
+        }
+        // geser ke bawah
         r = p.tailRow() + 1;
-        while (r < rows && grid[r][p.col] == '.') { out.add(createChild(parent, p, r - p.tailRow())); r++; }
-        // (rare) vertical exit
-        if (p.id == 'P' && p.col == exitCol && p.tailRow() < exitRow) {
-            boolean clear = true;
-            for (int rr = p.tailRow() + 1; rr < exitRow; rr++) if (grid[rr][p.col] != '.') { clear = false; break; }
-            if (clear) {
-                State goal = createChild(parent, p, exitRow - p.tailRow());
-                goal.isGoal = true;
-                out.add(goal);
+        while (r < rows && grid[r][p.col] == '.') {
+            out.add(createChild(parent, p, r - p.tailRow()));
+            r++;
+        }
+        // special: exit vertikal (atas/bawah)
+        if (p.id == 'P' && p.col == exitCol) {
+            // exit di bawah (exitRow == rows)
+            if (exitRow == rows) {
+                boolean clear = true;
+                for (int rr = p.tailRow() + 1; rr < rows; rr++) {
+                    if (grid[rr][p.col] != '.') { clear = false; break; }
+                }
+                if (clear) {
+                    // geser P sampai keluar bawah
+                    State goal = createChild(parent, p, rows - p.tailRow());
+                    goal.isGoal = true;
+                    out.add(goal);
+                }
+            }
+            // exit di atas (exitRow == -1)
+            else if (exitRow == -1) {
+                boolean clear = true;
+                for (int rr = p.row - 1; rr >= 0; rr--) {
+                    if (grid[rr][p.col] != '.') { clear = false; break; }
+                }
+                if (clear) {
+                    // geser P sampai keluar atas
+                    int delta = -(p.row + 1);
+                    State goal = createChild(parent, p, delta);
+                    goal.isGoal = true;
+                    out.add(goal);
+                }
             }
         }
     }
