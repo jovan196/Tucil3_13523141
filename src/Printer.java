@@ -21,16 +21,44 @@ public class Printer {
 
     private static String pretty(Board b, char moved) {
         StringBuilder sb = new StringBuilder();
-        for (int r = 0; r < b.rows; r++) {
-            for (int c = 0; c < b.cols; c++) {
-                char ch = b.grid[r][c];
-                if (ch == 'P') sb.append(RED).append(ch).append(RESET);
-                else if (r == b.exitRow && c == b.exitCol) sb.append(GREEN).append('K').append(RESET);
-                else if (ch == moved && moved != '\0') sb.append(BLUE).append(ch).append(RESET);
-                else sb.append(ch);
-            }
+
+        // 1. Baris ekstra di ATAS (exitRow == -1)
+        if (b.exitRow == -1) {
+            for (int c = 0; c < b.cols; c++)
+                sb.append(c == b.exitCol ? GREEN + 'K' + RESET : ' ');
             sb.append('\n');
         }
+
+        // 2. Baris-baris grid
+        for (int r = 0; r < b.rows; r++) {
+            // K di kiri?
+            if (b.exitCol == -1 && r == b.exitRow)
+                sb.append(GREEN).append('K').append(RESET);
+
+            for (int c = 0; c < b.cols; c++) {
+                char ch = b.grid[r][c];
+                if (ch == 'P')
+                    sb.append(RED).append(ch).append(RESET);
+                else if (ch == moved && moved != '\0')
+                    sb.append(BLUE).append(ch).append(RESET);
+                else
+                    sb.append(ch);
+            }
+
+            // K di kanan?
+            if (b.exitCol == b.cols && r == b.exitRow)
+                sb.append(GREEN).append('K').append(RESET);
+
+            sb.append('\n');
+        }
+
+        // 3. Baris ekstra di BAWAH (exitRow == rows)
+        if (b.exitRow == b.rows) {
+            for (int c = 0; c < b.cols; c++)
+                sb.append(c == b.exitCol ? GREEN + 'K' + RESET : ' ');
+            sb.append('\n');
+        }
+
         return sb.toString();
-    }
+        }
 }

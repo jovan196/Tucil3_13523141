@@ -8,12 +8,21 @@ public class Board {
     public final Piece primary;               // the red piece 'P'
     public final int exitRow, exitCol;        // coordinates of 'K'
 
+    public record Pos(int r,int c){}
+    public final Set<Pos> obstacles;
+
     public Board(int rows, int cols, char[][] grid,
                  Map<Character, Piece> pieces, Piece primary,
-                 int exitRow, int exitCol) {
+                 int exitRow, int exitCol, Set<Pos> obstacles) {
         this.rows = rows; this.cols = cols;
-        this.grid = grid; this.pieces = pieces;
+        // Create a defensive copy of the grid
+        this.grid = new char[grid.length][];
+        for (int i = 0; i < grid.length; i++) {
+            this.grid[i] = Arrays.copyOf(grid[i], grid[i].length);
+        }
+        this.pieces = pieces;
         this.primary = primary; this.exitRow = exitRow; this.exitCol = exitCol;
+        this.obstacles = obstacles;
     }
 
     /* -------------------------  Parsing  ------------------------- */
@@ -36,8 +45,8 @@ public class Board {
         Map<Character, List<int[]>> locs = new HashMap<>();
         int exR = -2, exC = -2;
 
-    List<String> rawRows = lines.subList(idx, lines.size());
-    List<String> boardLines = new ArrayList<>();
+        List<String> rawRows = lines.subList(idx, lines.size());
+        List<String> boardLines = new ArrayList<>();
         for (int i = 0; i < rawRows.size(); i++) {
             String rawLine = rawRows.get(i);
             String trim = rawLine.trim();
@@ -63,6 +72,7 @@ public class Board {
             throw new IllegalArgumentException("Tidak cukup baris board; dibutuhkan " + R);
 
         // 2) Sekarang isi grid dari boardLines[0..R-1], deteksi juga K di kiri/kanan:
+        Set<Pos> obstacles = new HashSet<>();
         for (int r = 0; r < R; r++) {
             String raw = boardLines.get(r).trim();
             // deteksi K di kiri/kanan seperti sebelumnya:
@@ -77,12 +87,16 @@ public class Board {
                     throw new IllegalArgumentException("Extra char bukan 'K' di row " + r);
                 }
             } else if (raw.length() != C) {
-                throw new IllegalArgumentException("Row " + r + " length " + raw.length() + " ≠ " + C);
+                throw new IllegalArgumentException("Row " + r + " length " + raw.length() + " != " + C);
             }
             // isi cell dan kumpulkan lokasi piece
             for (int c = 0; c < C; c++) {
                 char ch = raw.charAt(c);
-                if (ch != '.') {
+                if (ch == 'X') {
+                    g[r][c] = 'X';
+                    obstacles.add(new Pos(r,c));
+                }
+                else if (ch != '.') {
                     g[r][c] = ch;
                     locs.computeIfAbsent(ch, k -> new ArrayList<>()).add(new int[]{r,c});
                 }
@@ -105,7 +119,7 @@ public class Board {
             if (id == 'P') prim = p;
         }
         if (prim == null) throw new IllegalArgumentException("Primary piece 'P' not found");
-        return new Board(R, C, g, pcs, prim, exR, exC);
+        return new Board(R, C, g, pcs, prim, exR, exC, Collections.unmodifiableSet(obstacles));
     }
 
     /* -----------------------  Neighbours  ------------------------ */
@@ -220,8 +234,9 @@ public class Board {
                 }
             }
         }
+        for (Pos o : obstacles) ng[o.r()][o.c()] = 'X';
         int newG = parent == null ? Math.abs(delta) : parent.g + Math.abs(delta);
-        return new State(new Board(rows, cols, ng, np, np.get('P'), exitRow, exitCol),
+        return new State(new Board(rows, cols, ng, np, np.get('P'), exitRow, exitCol,obstacles),
                          parent, new Move(moving.id, delta), newG);
     }
 
