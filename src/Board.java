@@ -74,8 +74,10 @@ public class Board {
         // 2) Sekarang isi grid dari boardLines[0..R-1], deteksi juga K di kiri/kanan:
         Set<Pos> obstacles = new HashSet<>();
         for (int r = 0; r < R; r++) {
-            String raw = boardLines.get(r).trim();
-            // deteksi K di kiri/kanan seperti sebelumnya:
+            // preserve original spacing to handle side-exit blanks
+            String rawLine = boardLines.get(r);
+            String raw = rawLine;
+             // deteksi K di kiri/kanan seperti sebelumnya:
             if (raw.length() == C + 1) {
                 if (raw.charAt(0) == 'K') {
                     exR = r; exC = -1;
@@ -83,24 +85,33 @@ public class Board {
                 } else if (raw.charAt(raw.length()-1) == 'K') {
                     exR = r; exC = C;
                     raw = raw.substring(0, raw.length()-1);
+                } else if (raw.charAt(0) == ' ') {
+                    // ignore leading blank column for left-side exit
+                    raw = raw.substring(1);
+                } else if (raw.charAt(raw.length()-1) == ' ') {
+                    // ignore trailing blank column for right-side exit
+                    raw = raw.substring(0, raw.length()-1);
                 } else {
                     throw new IllegalArgumentException("Extra char bukan 'K' di row " + r);
                 }
-            } else if (raw.length() != C) {
+            }
+            // after stripping, ensure proper length
+            raw = raw.trim();
+            if (raw.length() != C) {
                 throw new IllegalArgumentException("Row " + r + " length " + raw.length() + " != " + C);
             }
-            // isi cell dan kumpulkan lokasi piece
-            for (int c = 0; c < C; c++) {
-                char ch = raw.charAt(c);
-                if (ch == 'X') {
-                    g[r][c] = 'X';
-                    obstacles.add(new Pos(r,c));
-                }
-                else if (ch != '.') {
-                    g[r][c] = ch;
-                    locs.computeIfAbsent(ch, k -> new ArrayList<>()).add(new int[]{r,c});
-                }
-            }
+             // isi cell dan kumpulkan lokasi piece
+             for (int c = 0; c < C; c++) {
+                 char ch = raw.charAt(c);
+                 if (ch == 'X') {
+                     g[r][c] = 'X';
+                     obstacles.add(new Pos(r,c));
+                 }
+                 else if (ch != '.') {
+                     g[r][c] = ch;
+                     locs.computeIfAbsent(ch, k -> new ArrayList<>()).add(new int[]{r,c});
+                 }
+             }
         }
 
         if (exR == -2)
@@ -142,32 +153,30 @@ public class Board {
         // right
         c = p.tailCol() + 1;
         while (c < cols && grid[p.row][c] == '.') { out.add(createChild(parent, p, c - p.tailCol())); c++; }
-        // special: exit
-        if (p.id == 'P' && p.row == exitRow && p.tailCol() < exitCol) {
-            // special: exit horizontal
-            if (p.id=='P' && p.row==exitRow) {
-                // jika exit di kanan (exitCol == cols)
-                if (exitCol == cols && p.tailCol() < cols) {
-                    boolean clear = true;
-                    for (int cc = p.tailCol()+1; cc < cols; cc++)
-                        if (grid[p.row][cc] != '.') { clear = false; break; }
-                    if (clear) {
-                        State goal = createChild(parent, p, cols - p.tailCol());
-                        goal.isGoal = true; out.add(goal);
-                    }
+        // special: horizontal exit for primary piece
+        if (p.id == 'P' && p.row == exitRow) {
+            // exit on right side
+            if (exitCol == cols) {
+                boolean clear = true;
+                for (int cc = p.tailCol() + 1; cc < cols; cc++) {
+                    if (grid[p.row][cc] != '.') { clear = false; break; }
                 }
-                // jika exit di kiri (exitCol == -1)
-                else if (exitCol == -1) {          // pintu di luar kolom -1
-                    boolean clear = true;
-                    for (int cc = p.col - 1; cc >= 0; cc--)
-                        if (grid[p.row][cc] != '.') { clear = false; break; }
-                    if (clear) {
-                        int delta = -(p.col + 1);  // geser sampai keluar
-                        State goal = createChild(parent, p, delta);
-                        goal.isGoal = true; out.add(goal);
-                    }
+                if (clear) {
+                    State goal = createChild(parent, p, cols - p.tailCol());
+                    goal.isGoal = true; out.add(goal);
                 }
-
+            }
+            // exit on left side
+            else if (exitCol == -1) {
+                boolean clear = true;
+                for (int cc = p.col - 1; cc >= 0; cc--) {
+                    if (grid[p.row][cc] != '.') { clear = false; break; }
+                }
+                if (clear) {
+                    int delta = -(p.col + 1);
+                    State goal = createChild(parent, p, delta);
+                    goal.isGoal = true; out.add(goal);
+                }
             }
         }
     }

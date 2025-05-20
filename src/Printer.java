@@ -19,7 +19,7 @@ public class Printer {
         }
     }
 
-    private static String pretty(Board b, char moved) {
+    public static String pretty(Board b, char moved) {
         StringBuilder sb = new StringBuilder();
 
         // 1. Baris ekstra di ATAS (exitRow == -1)
