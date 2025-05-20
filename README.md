@@ -47,9 +47,9 @@ java -cp ../bin Main
    * Klik **Browse…** untuk memilih file `.txt`.
    * Pilih algoritma (`ucs`, `gbfs`, `astar`) dan `H-ID` (1–3).
    * Tekan **Pecahkan** untuk mulai.
-   * Gunakan tombol **Prev**/ **Next** untuk menavigasi setiap langkah.
+   * Gunakan tombol **Prev**/**Next** untuk menavigasi setiap langkah.
    * Klik **Save Results** untuk menyimpan solusi ke berkas teks.
-   * Klik **Play/Stop** untuk memulai/menghentikan animasi step solusi.
+   * Klik **Play/Stop** untuk memulai/menghentikan animasi setiap _step_ solusi.
 
 ---
 
