@@ -38,7 +38,7 @@ javac ../src/*.java -d ../bin
 
 ## Cara Menjalankan
 
-1. Setelah kompilasi, jalankan prompt berikut untuk membuka GUI aplikasi:
+1. Setelah kompilasi, run kelas Main untuk membuka GUI aplikasi:
 ```bash
 java -cp ../bin Main
 ```
