@@ -27,31 +27,45 @@ public class BoardPanel extends JPanel {
                 return Color.getHSBColor(hue,0.5f,0.9f);
             });
         }
+        colorMap.put('X', OBSTACLE);
     }
 
-    @Override protected void paintComponent(Graphics g) {
+    @Override
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (board==null) return;
+        if (board == null) return;
+
         int R = board.rows, C = board.cols;
         int w = getWidth(), h = getHeight();
-        int cw = w/C, ch = h/R;
-        // cells
-        for(int r=0;r<R;r++) for(int c=0;c<C;c++){
-            char chId = board.grid[r][c];
-            Color col = EMPTY;
-            if (chId=='X')      col = OBSTACLE;
-            else if (chId!='.') col = colorMap.get(chId);
-            g.setColor(col);
-            g.fillRect(c*cw, r*ch, cw, ch);
-            g.setColor(Color.BLACK);
-            g.drawRect(c*cw, r*ch, cw, ch);
+        int cellW = w / C, cellH = h / R;
+        int offX = (w - C*cellW)/2, offY = (h - R*cellH)/2;
+
+        // grid
+        for (int r = 0; r < R; r++) {
+            for (int c = 0; c < C; c++) {
+                char id = board.grid[r][c];
+                Color col = switch (id) {
+                    case 'X'      -> OBSTACLE;
+                    case '.'      -> EMPTY;
+                    default       -> colorMap.getOrDefault(id, EMPTY);
+                };
+                g.setColor(col);
+                g.fillRect(offX + c*cellW, offY + r*cellH, cellW, cellH);
+                g.setColor(Color.BLACK);
+                g.drawRect(offX + c*cellW, offY + r*cellH, cellW, cellH);
+            }
         }
-        // exit marker
+
+        // exit
         g.setColor(EXIT);
-        int er=board.exitRow, ec=board.exitCol;
-        if (er==-1)      g.fillRect(ec*cw, 0, cw, ch/4);
-        else if (er==R)  g.fillRect(ec*cw, R*ch-ch/4, cw, ch/4);
-        else if (ec==-1) g.fillRect(0, er*ch, cw/4, ch);
-        else if (ec==C)  g.fillRect(C*cw-cw/4, er*ch, cw/4, ch);
+        int er = board.exitRow, ec = board.exitCol;
+        if (er == -1)                         // top
+            g.fillRect(offX + ec*cellW, offY, cellW, cellH/4);
+        else if (er == R)                     // bottom
+            g.fillRect(offX + ec*cellW, offY + R*cellH - cellH/4, cellW, cellH/4);
+        else if (ec == -1)                    // left
+            g.fillRect(offX, offY + er*cellH, cellW/4, cellH);
+        else if (ec == C)                     // right
+            g.fillRect(offX + C*cellW - cellW/4, offY + er*cellH, cellW/4, cellH);
     }
 }

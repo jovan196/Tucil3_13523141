@@ -134,9 +134,9 @@ public class MainGUI extends JFrame {
         for (int i = 0; i < path.size(); i++) {
             State s = path.get(i);
             if (i == 0) sb.append("Awal:\n");
-            else sb.append("Move ").append(i).append(": ").append(s.move).append("\n");
+            else sb.append("Langkah ").append(i).append(": ").append(s.move).append("\n");
             // strip ANSI color codes before saving
-            String plain = stripAnsi(Printer.pretty(s.board, s.move.piece));
+            String plain = stripAnsi(Printer.pretty(s.board, s.move==null ? '\0' : s.move.piece));
             sb.append(plain).append("\n");
         }
         return sb.toString();
