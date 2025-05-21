@@ -2,7 +2,7 @@
 
 ## Deskripsi Singkat
 
-**RushHour Solver** adalah program Java yang menyelesaikan puzzle *Rush Hour* menggunakan tiga algoritma pencarian:
+**RushHour Solver** adalah aplikasi (program) Java yang menyelesaikan puzzle *Rush Hour* menggunakan tiga algoritma pencarian:
 
 * **Uniform-Cost Search (UCS)**
 * **Greedy Best-First Search (GBFS)**
@@ -36,7 +36,7 @@ javac ../src/*.java -d ../bin
 
 ---
 
-## Cara Menjalankan
+## Cara Menjalankan Aplikasi
 
 1. Setelah kompilasi, run kelas Main untuk membuka GUI aplikasi:
 ```bash
